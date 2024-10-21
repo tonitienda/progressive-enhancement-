@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO List</title>
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+  </head>
+  <body>
+    <h1>TODO List</h1>
+    <div>
+      <form hx-post="/tasks" hx-target="#task-list" hx-swap="innerHTML">
+        <input type="text" name="task" placeholder="Add a new task" required />
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+    <ul id="task-list">
+      {{ range $index, $task := . }}
+      <li>
+        <span
+          hx-post="/tasks/toggle"
+          hx-target="#task-list"
+          hx-swap="innerHTML"
+          hx-vals='{"index": "{{ $index }}"}'
+          >{{ if $task.Completed }}<s>{{ $task.Text }}</s>{{ else }}{{
+          $task.Text }}{{ end }}</span
+        >
+        <button
+          hx-post="/tasks/delete"
+          hx-target="#task-list"
+          hx-swap="innerHTML"
+          hx-vals='{"index": "{{ $index }}"}'
+        >
+          Delete
+        </button>
+      </li>
+      {{ end }}
+    </ul>
+  </body>
+</html>

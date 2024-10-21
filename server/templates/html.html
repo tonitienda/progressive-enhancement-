@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO List</title>
+  </head>
+  <body>
+    <h1>TODO List</h1>
+    <div>
+      <form action="/tasks" method="POST">
+        <input type="text" name="task" placeholder="Add a new task" required />
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+    <ul id="task-list">
+      {{ range $index, $task := . }}
+      <li>
+        <span>
+          {{ if $task.Completed }}<s>{{ $task.Text }}</s>{{ else }}{{ $task.Text
+          }}{{ end }}</span
+        >
+        <button>Delete</button>
+      </li>
+      {{ end }}
+    </ul>
+  </body>
+</html>
